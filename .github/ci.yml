@@ -30,3 +30,6 @@ jobs:
 
       - name: Cargar JAR
         uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: build/libs/*.jar
