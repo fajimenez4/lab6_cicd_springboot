@@ -97,6 +97,20 @@ public class WalletServiceTest {
         Mockito.verify(walletRepository).save(captor.capture());
         Wallet saved = captor.getValue();
         Assertions.assertEquals(newBalance, saved.getBalance(), 0.0001);
+    }
 
+    @Test
+    void withdraw_insufficientFunds_shouldThrowException_andNotSave(){
+        Wallet wallet = new Wallet("francisco.jimenez@ejemplo.com", 500.00);
+        String walletId = wallet.getId();
+
+        Mockito.when(walletRepository.findById(walletId)).thenReturn(Optional.of(wallet));
+
+        //Act + Assert
+        IllegalStateException ex = Assertions.assertThrows(IllegalStateException.class, ()
+                -> walletService.withdraw(walletId, 2000.00));
+
+        Assertions.assertEquals("Insufficient funds", ex.getMessage());
+        Mockito.verify(walletRepository, Mockito.never()).save(ArgumentMatchers.any(Wallet.class));
     }
 }
