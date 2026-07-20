@@ -113,4 +113,24 @@ public class WalletServiceTest {
         Assertions.assertEquals("Insufficient funds", ex.getMessage());
         Mockito.verify(walletRepository, Mockito.never()).save(ArgumentMatchers.any(Wallet.class));
     }
+
+    @Test
+    void withdraw_validData_shouldUpdateBalance_andSave(){
+        //Arrange
+        Wallet wallet = new Wallet("francisco.jimenez@ejemplo.com", 500.00);
+        String walletId = wallet.getId();
+
+        Mockito.when(walletRepository.findById(walletId)).thenReturn(Optional.of(wallet));
+
+        //Act
+        double newBalance = walletService.withdraw(walletId, 200.00);
+
+        //Assert
+        Assertions.assertEquals(300.00, newBalance, 0.0001);
+        Mockito.verify(walletRepository).findById(walletId);
+        Mockito.verify(walletRepository).save(ArgumentMatchers.any(Wallet.class));
+
+        //git commit -m "test: agregar caso de withdraw exitoso"
+        //git push origin main
+    }
 }
