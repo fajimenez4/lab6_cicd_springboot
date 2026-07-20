@@ -129,8 +129,5 @@ public class WalletServiceTest {
         Assertions.assertEquals(300.00, newBalance, 0.0001);
         Mockito.verify(walletRepository).findById(walletId);
         Mockito.verify(walletRepository).save(ArgumentMatchers.any(Wallet.class));
-
-        //git commit -m "test: agregar caso de withdraw exitoso"
-        //git push origin main
     }
 }

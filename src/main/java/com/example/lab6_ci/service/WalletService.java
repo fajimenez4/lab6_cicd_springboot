@@ -22,8 +22,8 @@ public class WalletService {
         if (ownerEmail == null || !ownerEmail.contains("@")){
             throw new IllegalArgumentException("Invalida email");
         }
-        if (initialBalance > 0) {
-            throw new IllegalArgumentException("Invalid balance must be >= 0");
+        if (initialBalance <= 0) {
+            throw new IllegalArgumentException("Invalid balance must be > 0");
         }
 
         //Regla de negocio: usuario bloqueado
