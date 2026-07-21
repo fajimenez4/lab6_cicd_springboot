@@ -130,4 +130,17 @@ public class WalletServiceTest {
         Mockito.verify(walletRepository).findById(walletId);
         Mockito.verify(walletRepository).save(ArgumentMatchers.any(Wallet.class));
     }
+
+    @Test
+    void withdraw_invalidAmount_shouldThrowException_andNotCallRepository(){
+        //Arrange
+        String walletId = "algun-id";
+
+        //Act + Assert
+        IllegalArgumentException ex = Assertions.assertThrows(IllegalArgumentException.class, ()
+                -> walletService.withdraw(walletId, -10.00));
+
+        Assertions.assertEquals("Withdraw amount must be > 0", ex.getMessage());
+        Mockito.verifyNoInteractions(walletRepository);
+    }
 }
